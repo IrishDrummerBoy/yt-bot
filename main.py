@@ -1,58 +1,49 @@
 from yt_dlp import YoutubeDL
+from yt_dlp.utils import DownloadError
 
-def format_selector(ctx):
-	""" Select the best video and the best audio that won't result in an mkv.
-	NOTE: This is just an example and does not handle all cases """
+class loggerOutputs:
+	def error(msg):
+		print("Captured Error: " + msg)
 
-	# formats are already sorted worst to best
-	formats = ctx.get('formats')[::-1]
+	def warning(msg):
+		print("Captured Warning: " + msg)
 
-	# acodec='none' means there is no audio
-	best_video = next
-	(
-		f for f in formats
-			if f['vcodec'] != 'none' and f['acodec'] == 'none'
-	)
+	def debug(msg):
+		print("Captured Log: " + msg)
 
-	# find compatible audio extension
-	audio_ext = {'mp4': 'm4a', 'webm': 'webm'}[best_video['ext']]
-	# vcodec='none' means there is no video
-	best_audio = next(f for f in formats if (
-		f['acodec'] != 'none' and f['vcodec'] == 'none' and f['ext'] == audio_ext))
-
-	# These are the minimum required fields for a merged format
-	yield {
-		'format_id': f'{best_video["format_id"]}+{best_audio["format_id"]}',
-		'ext': best_video['ext'],
-		'requested_formats': [best_video, best_audio],
-		# Must be + separated list of protocols
-		'protocol': f'{best_video["protocol"]}+{best_audio["protocol"]}'
-	}
-
-def download_all_songs(urls):
-	ydl_opts = {
-		'format': 'mp3/bestaudio/best',
-		'postprocessors': [{
-			'key': 'FFmpegExtractAudio',
-			'preferredcodec': 'mp3'
+def download_mp3(url):
+	options = {
+		"logger": loggerOutputs,
+		"format": "mp3/bestaudio/best",
+		"postprocessors": [{
+			"key": "FFmpegExtractAudio",
+			"preferredcodec": "mp3"
 		}]
 	}
 
-	YoutubeDL(ydl_opts).download(urls)
+	YoutubeDL(options).download(url)
+
+def download_mp4(url):
+	options = {
+		"logger": loggerOutputs
+	}
+
+	YoutubeDL(options).download(url)
 
 def main():
-	# movie_playlist_urls = [""]
-	url = []
+	try:
+		while True:
+			url = input("Please enter a video link or type 'exit' to quit: ")
 
-	YoutubeDL().download(url)
+			if (url != "exit"):
+				download_mp3(url)
+			elif(url == "exit"):
+				break
 
-	while True:
-		url = input("Please enter a video link or type 'exit' to quit: ")
+	except DownloadError:
+		print(DownloadError)
 
-		if (url != "exit"):
-			YoutubeDL().download(url)
-		elif(url == "exit"):
-			break
+	finally:
+		print("Thanks for using yt-bot!")
 
-	print("Thanks for using yt-bot!")
 main()
