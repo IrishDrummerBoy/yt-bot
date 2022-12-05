@@ -8,9 +8,6 @@ class loggerOutputs:
 	def warning(msg):
 		print("Captured Warning: " + msg)
 
-	def debug(msg):
-		print("Captured Log: " + msg)
-
 def download_mp3(url):
 	options = {
 		"logger": loggerOutputs,
@@ -25,6 +22,7 @@ def download_mp3(url):
 
 def download_mp4(url):
 	options = {
+		"format": "bestvideo[ext=mp4]+bestaudio[ext=mp4]/mp4+best[height<=480]",
 		"logger": loggerOutputs
 	}
 
@@ -36,7 +34,7 @@ def main():
 			url = input("Please enter a video link or type 'exit' to quit: ")
 
 			if (url != "exit"):
-				download_mp3(url)
+				download_mp4(url)
 			elif(url == "exit"):
 				break
 
