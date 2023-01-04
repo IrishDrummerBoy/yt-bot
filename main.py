@@ -8,6 +8,9 @@ class loggerOutputs:
 	def warning(msg):
 		print("Captured Warning: " + msg)
 
+	def debug(msg):
+		print("Captured Log: " + msg)
+
 def download_mp3(url):
 	options = {
 		"logger": loggerOutputs,
