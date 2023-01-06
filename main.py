@@ -3,13 +3,13 @@ from yt_dlp.utils import DownloadError
 
 class loggerOutputs:
 	def error(msg):
-		print("Captured Error: " + msg)
+		print("Error: " + msg)
 
 	def warning(msg):
-		print("Captured Warning: " + msg)
+		print("Warning: " + msg)
 
 	def debug(msg):
-		print("Captured Log: " + msg)
+		print(msg)
 
 def download_mp3(url):
 	options = {
