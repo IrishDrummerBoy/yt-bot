@@ -70,8 +70,11 @@ def main():
 			url = input("Please enter a video link or type 'exit' to quit: ")
 
 			if (url != "exit"):
-				download_mp4(url)
-				append_to_csv(url, download_history_csv)
+				if [url] not in download_history_array:
+					download_mp4(url)
+					append_to_csv(url, download_history_csv)
+				else:
+					print("This video has already been downloaded!")
 
 			elif(url == "exit"):
 				break
