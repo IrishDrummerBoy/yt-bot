@@ -63,18 +63,19 @@ def download_mp4(url):
 
 def main():
 	try:
-		download_history_array = get_array_from_csv(download_history_csv)
-		print(download_history_array)
-
 		while True:
+			download_history_array = get_array_from_csv(download_history_csv)
 			url = input("Please enter a video link or type 'exit' to quit: ")
 
 			if (url != "exit"):
-				if [url] not in download_history_array:
-					download_mp4(url)
-					append_to_csv(url, download_history_csv)
-				else:
+				if [url] in download_history_array:
 					print("This video has already been downloaded!")
+				else:
+					if "music.youtube.com" in url:
+						download_mp3(url)
+					else:
+						download_mp4(url)
+					append_to_csv(url, download_history_csv)
 
 			elif(url == "exit"):
 				break
