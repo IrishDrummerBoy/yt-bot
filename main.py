@@ -25,21 +25,17 @@ def get_array_from_csv(csv_path):
 	array = []
 
 	with open(csv_path) as csv_array:
-		reader = csv.reader(csv_array)
-
-		for row in reader:
+		for row in csv.reader(csv_array):
 			array.append(row)
 		csv_array.close()
 
 	return array
 
 def append_to_csv(data, csv_path):
-	row = [data]
 	with open(csv_path, "a") as csv_object:
 		writer_object = csv.writer(csv_object)
-		writer_object.writerow(row)
+		writer_object.writerow([data])
 		csv_object.close()
-
 
 def download_mp3(url):
 	options = {
