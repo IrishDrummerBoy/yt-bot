@@ -1,5 +1,6 @@
 import os
 import csv
+import logging
 from yt_dlp import YoutubeDL
 
 download_history_csv = "download_history.csv"
@@ -11,15 +12,21 @@ if not os.path.isfile(download_history_csv):
 
 	print("File history csv was created successfully!")
 
+
 class loggerOutputs:
+	logging.basicConfig(format="%(asctime)s:%(levelname)s:%(message)s", filename="yt-bot.log", encoding="utf-8", level=logging.DEBUG)
+
 	def error(msg):
 		print("Error: " + msg)
+		logging.error(msg)
 
 	def warning(msg):
 		print("Warning: " + msg)
+		logging.warning(msg)
 
 	def debug(msg):
 		print(msg)
+		logging.debug(msg)
 
 def get_array_from_csv(csv_path):
 	array = []
