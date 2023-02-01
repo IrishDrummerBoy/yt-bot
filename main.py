@@ -1,6 +1,8 @@
 import os
+import re
 import csv
 import logging
+import requests
 from yt_dlp import YoutubeDL
 
 download_history_csv = "download_history.csv"
@@ -55,6 +57,7 @@ def download_mp3(url):
 	}
 
 	YoutubeDL(options).download(url)
+	append_to_csv(url, download_history_csv)
 
 def download_mp4(url):
 	options = {
@@ -63,6 +66,20 @@ def download_mp4(url):
 	}
 
 	YoutubeDL(options).download(url)
+	append_to_csv(url, download_history_csv)
+
+def download_mp4_playlist(url: str) -> map:
+	# since it uses a set it's not ordered
+	# since youtube doesn't provide more than 100 links at the time for the moment
+	# it returns up to 100 elements
+	page_text = requests.get(url).text
+
+	parser = re.compile(r"watch\?v=\S+?list=")
+	playlist = set(re.findall(parser, page_text))
+	playlist = map((lambda x: "https://www.youtube.com/" + x.replace("\\u0026list=", "")), playlist)
+
+	for u in playlist:
+		download_mp4(u)
 
 def main():
 	try:
@@ -76,9 +93,10 @@ def main():
 				else:
 					if "music.youtube.com" in url:
 						download_mp3(url)
+					elif "playlist?" in url:
+						download_mp4_playlist(url)
 					else:
 						download_mp4(url)
-					append_to_csv(url, download_history_csv)
 
 			elif(url == "exit"):
 				break
