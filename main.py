@@ -28,7 +28,6 @@ class loggerOutputs:
 
 	def debug(msg):
 		print(msg)
-		logging.debug(msg)
 
 def get_array_from_csv(csv_path):
 	array = []
