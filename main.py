@@ -6,6 +6,16 @@ import requests
 from yt_dlp import YoutubeDL
 
 download_history_csv = "download_history.csv"
+mp3_path = "./Music/"
+mp4_path = "./Videos/"
+
+if not os.path.exists(mp3_path):
+	os.makedirs(mp3_path)
+	print("The mp3 download was created successfully!")
+
+if not os.path.exists(mp4_path):
+	os.makedirs(mp4_path)
+	print("The mp4 download was created successfully!")
 
 if not os.path.isfile(download_history_csv):
 	with open(download_history_csv, "w") as csv_file:
@@ -52,7 +62,8 @@ def download_mp3(url):
 		"postprocessors": [{
 			"key": "FFmpegExtractAudio",
 			"preferredcodec": "mp3"
-		}]
+		}],
+		"outtmpl": f"{mp3_path}%(artist)s/%(album)s/%(track_number)s - %(title)s.%(ext)s"
 	}
 
 	YoutubeDL(options).download(url)
@@ -61,7 +72,8 @@ def download_mp3(url):
 def download_mp4(url):
 	options = {
 		"format": "bestvideo[ext=mp4]+bestaudio[ext=mp4]/mp4+best[height<=480]",
-		"logger": loggerOutputs
+		"logger": loggerOutputs,
+		"outtmpl": f"{mp4_path}%(title)s.%(ext)s"
 	}
 
 	YoutubeDL(options).download(url)
