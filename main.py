@@ -95,22 +95,19 @@ def download_mp4_playlist(url: str) -> map:
 def main():
 	try:
 		while True:
-			download_history_array = get_array_from_csv(download_history_csv)
 			url = input("Please enter a video link or type 'exit' to quit: ")
 
-			if (url != "exit"):
-				if [url] in download_history_array:
-					print("This video has already been downloaded!")
+			if [url] in get_array_from_csv(download_history_csv):
+				print("This video has already been downloaded!")
+			else:
+				if "music.youtube.com" in url:
+					download_mp3(url)
+				elif "playlist?" in url:
+					download_mp4_playlist(url)
+				elif(url == "exit"):
+					break
 				else:
-					if "music.youtube.com" in url:
-						download_mp3(url)
-					elif "playlist?" in url:
-						download_mp4_playlist(url)
-					else:
-						download_mp4(url)
-
-			elif(url == "exit"):
-				break
+					download_mp4(url)
 
 	finally:
 		print("Thanks for using yt-bot!")
