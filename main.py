@@ -63,7 +63,7 @@ def download_mp3(url):
 			"key": "FFmpegExtractAudio",
 			"preferredcodec": "mp3"
 		}],
-		"outtmpl": f"{mp3_path}%(artist)s/%(album)s/%(track_number)s - %(title)s.%(ext)s"
+		"outtmpl": f"{mp3_path}%(artist)s/%(album)s/%(title)s.%(ext)s"
 	}
 
 	YoutubeDL(options).download(url)
