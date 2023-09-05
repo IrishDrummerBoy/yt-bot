@@ -63,7 +63,8 @@ def download_mp3(url):
 			"key": "FFmpegExtractAudio",
 			"preferredcodec": "mp3"
 		}],
-		"outtmpl": f"{mp3_path}%(artist)s/%(album)s/%(title)s.%(ext)s"
+		"outtmpl": f"{mp3_path}%(artist)s/%(album)s/%(title)s.%(ext)s",
+		"concurrent_fragment_downloads": 4
 	}
 
 	YoutubeDL(options).download(url)
@@ -73,7 +74,8 @@ def download_mp4(url):
 	options = {
 		"format": "bestvideo[ext=mp4]+bestaudio[ext=mp4]/mp4+best[height<=480]",
 		"logger": loggerOutputs,
-		"outtmpl": f"{mp4_path}%(title)s.%(ext)s"
+		"outtmpl": f"{mp4_path}%(title)s.%(ext)s",
+		"concurrent_fragment_downloads": 4
 	}
 
 	YoutubeDL(options).download(url)
