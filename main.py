@@ -116,7 +116,7 @@ def main():
 				elif(url == "exit"):
 					break
 				elif(url == "csv"):
-				  download_from_csv("todo.csv")
+					download_from_csv("todo.csv")
 				else:
 					download_mp4(url)
 
