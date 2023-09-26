@@ -3,4 +3,5 @@
 *.part
 *.csv
 *.log
+*.txt
 .vscode/

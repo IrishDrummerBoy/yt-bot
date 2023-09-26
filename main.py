@@ -5,7 +5,7 @@ import logging
 import requests
 from yt_dlp import YoutubeDL
 
-download_history_csv = "download_history.csv"
+download_archive_path = "download_archive.txt"
 mp3_path = "./Music/"
 mp4_path = "./Videos/"
 
@@ -16,14 +16,6 @@ if not os.path.exists(mp3_path):
 if not os.path.exists(mp4_path):
 	os.makedirs(mp4_path)
 	print("The mp4 download was created successfully!")
-
-if not os.path.isfile(download_history_csv):
-	with open(download_history_csv, "w") as csv_file:
-		csv_file.close()
-		pass
-
-	print("File history csv was created successfully!")
-
 
 class loggerOutputs:
 	logging.basicConfig(format="%(asctime)s:%(levelname)s:%(message)s", filename="yt-bot.log", encoding="utf-8", level=logging.DEBUG)
@@ -64,22 +56,22 @@ def download_mp3(url):
 			"preferredcodec": "mp3"
 		}],
 		"outtmpl": f"{mp3_path}%(artist)s/%(album)s/%(title)s.%(ext)s",
-		"concurrent_fragment_downloads": 4
+		"concurrent_fragment_downloads": 4,
+		"download_archive": download_archive_path
 	}
 
 	YoutubeDL(options).download(url)
-	append_to_csv(url, download_history_csv)
 
 def download_mp4(url):
 	options = {
 		"format": "bestvideo[ext=mp4]+bestaudio[ext=mp4]/mp4+best[height<=480]",
 		"logger": loggerOutputs,
 		"outtmpl": f"{mp4_path}%(title)s.%(ext)s",
-		"concurrent_fragment_downloads": 4
+		"concurrent_fragment_downloads": 4,
+		"download_archive": download_archive_path
 	}
 
 	YoutubeDL(options).download(url)
-	append_to_csv(url, download_history_csv)
 
 def download_mp4_playlist(url: str) -> map:
 	# since it uses a set it's not ordered
@@ -106,19 +98,16 @@ def main():
 		while True:
 			url = input("Please enter a video link or type 'exit' to quit: ")
 
-			if [url] in get_array_from_csv(download_history_csv):
-				print("This video has already been downloaded!")
+			if "music.youtube.com" in url:
+				download_mp3(url)
+			elif "playlist?" in url:
+				download_mp4_playlist(url)
+			elif(url == "exit"):
+				break
+			elif(url == "csv"):
+				download_from_csv("todo.csv")
 			else:
-				if "music.youtube.com" in url:
-					download_mp3(url)
-				elif "playlist?" in url:
-					download_mp4_playlist(url)
-				elif(url == "exit"):
-					break
-				elif(url == "csv"):
-					download_from_csv("todo.csv")
-				else:
-					download_mp4(url)
+				download_mp4(url)
 
 	finally:
 		print("Thanks for using yt-bot!")
