@@ -48,6 +48,8 @@ def append_to_csv(data, csv_path):
 		csv_object.close()
 
 def download_mp3(url):
+	artist_name = input("What is the artist's name? ")
+	path = f"{mp3_path}/{artist_name}"
 	options = {
 		"logger": loggerOutputs,
 		"format": "mp3/bestaudio/best",
@@ -55,7 +57,7 @@ def download_mp3(url):
 			"key": "FFmpegExtractAudio",
 			"preferredcodec": "mp3"
 		}],
-		"outtmpl": f"{mp3_path}%(artist)s/%(album)s/%(title)s.%(ext)s",
+		"outtmpl": f"{path}%(album)s/%(title)s.%(ext)s",
 		"concurrent_fragment_downloads": 4,
 		"download_archive": download_archive_path
 	}
