@@ -49,7 +49,7 @@ def append_to_csv(data, csv_path):
 
 def download_mp3(url):
 	artist_name = input("What is the artist's name? ")
-	path = f"{mp3_path}/{artist_name}"
+	path = f"{mp3_path}/{artist_name}/"
 	options = {
 		"logger": loggerOutputs,
 		"format": "mp3/bestaudio/best",
