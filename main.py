@@ -66,7 +66,7 @@ def download_mp3(url):
 
 def download_mp4(url):
 	options = {
-		"format": "bestvideo[ext=mp4]+bestaudio[ext=mp4]/mp4+best[height<=480]",
+		"format": "bestvideo[ext=mp4]+bestaudio[ext=mp4]/mp4+best[height<=1080]",
 		"logger": loggerOutputs,
 		"outtmpl": f"{mp4_path}%(title)s.%(ext)s",
 		"concurrent_fragment_downloads": 4,
