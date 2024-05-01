@@ -60,7 +60,8 @@ def download_mp3(url):
 		}],
 		"outtmpl": f"{path}%(album)s/%(title)s.%(ext)s",
 		"concurrent_fragment_downloads": 4,
-		"download_archive": download_archive_path
+		"download_archive": download_archive_path,
+		"ignoreerrors": True
 	}
 
 	YoutubeDL(options).download(url)
@@ -71,7 +72,8 @@ def download_mp4(url):
 		"logger": loggerOutputs,
 		"outtmpl": f"{mp4_path}%(title)s.%(ext)s",
 		"concurrent_fragment_downloads": 4,
-		"download_archive": download_archive_path
+		"download_archive": download_archive_path,
+		"ignoreerrors": True
 	}
 
 	YoutubeDL(options).download(url)
