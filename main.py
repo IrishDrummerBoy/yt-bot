@@ -55,7 +55,8 @@ def download_mp3(url):
 		"format": "mp3/bestaudio/best",
 		"postprocessors": [{
 			"key": "FFmpegExtractAudio",
-			"preferredcodec": "mp3"
+			"preferredcodec": "mp3",
+			"preferredquality": "192"
 		}],
 		"outtmpl": f"{path}%(album)s/%(title)s.%(ext)s",
 		"concurrent_fragment_downloads": 4,
