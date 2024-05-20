@@ -92,11 +92,11 @@ def download_mp4_playlist(url: str) -> map:
 		download_mp4(u)
 
 def download_from_csv(csv_path):
-  with open(csv_path, "r") as f:
-    reader = csv.reader(f, delimiter="\n")
-    for url in reader:
-      for u in url:
-        download_mp4(u)
+	with open(csv_path, "r") as f:
+		reader = csv.reader(f, delimiter="\n")
+		for url in reader:
+			for u in url:
+				download_mp4(u)
 
 def main():
 	try:
