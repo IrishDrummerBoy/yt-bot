@@ -94,9 +94,10 @@ def download_mp4_playlist(url: str) -> map:
 def download_from_csv(csv_path):
 	with open(csv_path, "r") as f:
 		reader = csv.reader(f, delimiter="\n")
-		for url in reader:
-			for u in url:
-				download_mp4(u)
+		for urls in reader:
+			for url in urls:
+				if not url.startswith("#"):
+					download_mp4(url)
 
 def main():
 	try:
